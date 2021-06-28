@@ -1,5 +1,14 @@
-import app from './ServerApp';
+import app from './ServerApp.js';
 
-app.listen(4000, () => {
-  console.log("Server running on port 4000");
+function get_port(){
+    if(process.env.PORT){
+        return process.env.PORT
+    }
+    else {
+        return 4000
+    }
+}
+
+app.listen(get_port(), () => {
+    console.log("Server running on port " + get_port());
 });

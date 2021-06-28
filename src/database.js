@@ -8,12 +8,29 @@ const host = 'localhost';
 const port = 5432;
 const database = 'mywallet';
 
-const connection = new Pool({
-  user,
-  password,
-  host,
-  port,
-  database
-});
+const databaseConfig = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+}
 
+function get_connection(){
+  if (process.env.DATABASE_URL) {
+    const connection = new Pool(databaseConfig);
+    return connection
+  }
+  else {
+    const connection = new Pool({
+      user,
+      password,
+      host,
+      port,
+      database
+    });
+    return connection
+  }
+}
+
+const connection = get_connection()
 export default connection
